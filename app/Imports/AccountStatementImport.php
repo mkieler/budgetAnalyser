@@ -37,14 +37,15 @@ class AccountStatementImport implements ToModel
 
     private function parseDescription($description)
     {
-        if(str_contains(strtolower($description), 'dk-nota')){
-            return substr($description, 13);
-        } else if(str_contains(strtolower($description), 'mobilepay')){
-            return 'MobilePay';
-        } else if(str_contains(strtolower($description), 'forretning')){
-            return substr($description, 12);
-        } else {
-            return $description;
-        }
+        $description = strtolower($description);
+        //Remove strange prefixes
+        if(str_contains($description, 'dk-nota')){
+            $description = substr($description, 13);
+        } else if(str_contains($description, 'mobilepay')){
+            $description = 'MobilePay';
+        } else if(str_contains($description, 'forretning')){
+            $description = substr($description, 12);
+        } 
+        return $description;
     }
 }

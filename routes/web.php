@@ -20,9 +20,8 @@ Route::post('/upload', function() {
 
 Route::get('/result/{accountStatementId}', function($accountStatementId) {
     $data['accountStatement'] = AccountStatement::with('lines')->find($accountStatementId);
-    $data['accountStatement']->negativeGroups = $data['accountStatement']->lines->groupBy('description')
-        ->filter(fn($lines) => $lines->sum('amount') < 0)
-        ->map(fn($lines) => $lines->sum('amount'));
+    
+
     $data['accountStatement']->positiveGroups = $data['accountStatement']->lines->groupBy('description')
         ->filter(fn($lines) => $lines->sum('amount') > 0)
         ->map(fn($lines) => $lines->sum('amount'));
