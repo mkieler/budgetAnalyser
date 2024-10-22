@@ -14,7 +14,8 @@ class AnalyserTabel extends Component
 
     public function render()
     {
-        $this->selectedBudget = Budget::find($this->selectedBudget) ?? Budget::first();
+        $this->selectedBudget = Budget::find($this->selectedBudget?->id) ?? Budget::first();
+        $this->selectedBudget->load('items.lines');
 
         $data['accountStatement'] = AccountStatement::with(['lines' => fn($query) => $query->where('exclude', false)])->find($this->accountStatementID);
         $data['budgets'] = Budget::all('id', 'name');

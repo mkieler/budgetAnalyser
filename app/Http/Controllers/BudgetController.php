@@ -51,8 +51,14 @@ class BudgetController extends Controller
 
     public function showItemCategory(Budget $budget, $itemId, $categoryId)
     {
-        $data['category'] = BudgetItemLineCategory::with('lines')->find($categoryId);
+        if('uncategorized' === $categoryId) {
+            $data['category'] = (object) ['name' => 'Uncategorized'];
+            $data['category']->lines = $budget->items->find($itemId)->uncategorizedLines->sortBy('amount');
+        } else {
+            $data['category'] = BudgetItemLineCategory::with('lines')->find($categoryId);
+        }
         $data['budget'] = $budget;
+        $data['itemId'] = $itemId;
         return view('budget.item.details', $data);
     }
 }

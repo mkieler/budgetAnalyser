@@ -20,4 +20,24 @@ class BudgetItem extends Model
     {
         return $this->hasMany(BudgetItemLineCategory::class);
     }
+
+    public function getUncategorizedLinesAttribute()
+    {
+        return $this->lines->where('budget_item_line_category_id', null);
+    }
+
+    public function getHasUncategorizedLinesAttribute()
+    {
+        return $this->uncategorizedLines->count() > 0;
+    }
+
+    public function getUncategorizedAmountAttribute()
+    {
+        return $this->uncategorizedLines->sum('amount');
+    }
+
+    public function getMonthlyUncategorizedAmountAttribute()
+    {
+        return $this->uncategorizedLines->sum('amount') / 12;
+    }
 }

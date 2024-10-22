@@ -3,12 +3,21 @@
         <tr>
             <th>Navn</th>
             <th>Beløb</th>
+            <th>Kategori</th>
             <th></th>
         </tr>
         @foreach($lines as $line)
             <tr>
                 <td>{{$line->name}}</td>
-                <td>{{$line->amount}}</td>
+                <td>{{number_format($line->amount, 2, ',', '.')}}</td>
+                <td>
+                    <select wire:change='addLineToCategory({{$line}}, $event.target.value)'>
+                        <option value="0">Vælg</option>
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </select>
+                </td>
                 <td>
                     <i class="fa-solid fa-pen-to-square" ></i>
                     <i class="fa-solid fa-trash"></i>

@@ -9,7 +9,7 @@ class BudgetItems extends Component
 {
     public $budget;
     public $itemName;
-    public $categoryName;
+    public $categoryName = [];
 
     public function render()
     {
@@ -34,7 +34,7 @@ class BudgetItems extends Component
 
     public function createCategory($itemId)
     {
-        BudgetItemLineCategory::create(['budget_item_id' => $itemId, 'name' => $this->categoryName]);
+        BudgetItemLineCategory::create(['budget_item_id' => $itemId, 'name' => $this->categoryName[$itemId]]);
     }
 
     public function deleteCategory($categoryId)
